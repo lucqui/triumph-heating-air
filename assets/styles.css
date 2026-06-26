@@ -158,9 +158,38 @@ button {
 }
 
 .header-actions {
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  margin-left: auto;
+}
+
+.language-toggle {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.language-toggle button {
+  min-width: 2.3rem;
+  min-height: 2.15rem;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.72);
+  background: transparent;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.language-toggle button[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--gold);
 }
 
 .phone-link,
@@ -755,6 +784,10 @@ h3 {
     display: none;
   }
 
+  .header-actions {
+    justify-self: end;
+  }
+
   .hero {
     min-height: 86vh;
   }
@@ -803,6 +836,16 @@ h3 {
 
   .site-header {
     padding-inline: 1rem;
+  }
+
+  .header-actions {
+    gap: 0.45rem;
+  }
+
+  .language-toggle button {
+    min-width: 2rem;
+    min-height: 2rem;
+    font-size: 0.7rem;
   }
 
   .brand-mark {
