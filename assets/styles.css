@@ -299,6 +299,16 @@ h1 {
   font-weight: 880;
 }
 
+#hero-title span {
+  display: block;
+  white-space: nowrap;
+}
+
+html[lang="es"] h1 {
+  max-width: 980px;
+  font-size: clamp(2.45rem, 5vw, 5.05rem);
+}
+
 h2 {
   margin-bottom: 1rem;
   font-size: clamp(2rem, 4.2vw, 4rem);
@@ -909,6 +919,10 @@ h3 {
 
   h1 {
     font-size: 3rem;
+  }
+
+  html[lang="es"] h1 {
+    font-size: clamp(1.75rem, 7.4vw, 1.9rem);
   }
 
   .hero-proof {

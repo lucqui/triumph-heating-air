@@ -18,7 +18,7 @@
       nav_why: "Why Triumph",
       nav_contact: "Contact",
       hero_eyebrow: "Licensed and insured HVAC service in Northern Utah",
-      hero_title: "Clean installs. Steady comfort. Easy to reach.",
+      hero_title: "Clean installs.|Steady comfort.|Easy to reach.",
       hero_copy: "Triumph Heating & Air is a local, family-oriented HVAC company serving Davis County, Weber County, Salt Lake County, Layton, and nearby communities.",
       call_or_text: "Call or text",
       free_estimate: "Free estimate",
@@ -81,7 +81,7 @@
       nav_why: "Por qué Triumph",
       nav_contact: "Contacto",
       hero_eyebrow: "Servicio HVAC con licencia y seguro en el norte de Utah",
-      hero_title: "Instalaciones limpias. Comodidad constante. Fácil contacto.",
+      hero_title: "Instalaciones limpias.|Comodidad constante.|Fácil de contactar.",
       hero_copy: "Triumph Heating & Air es una compañía HVAC local y familiar que sirve a Davis County, Weber County, Salt Lake County, Layton y comunidades cercanas.",
       call_or_text: "Llame o mande texto",
       free_estimate: "Estimado gratis",
@@ -171,7 +171,20 @@
 
     document.querySelectorAll("[data-i18n]").forEach((element) => {
       const key = element.getAttribute("data-i18n");
-      if (dictionary[key]) element.textContent = dictionary[key];
+      if (!dictionary[key]) return;
+
+      if (element.hasAttribute("data-i18n-lines")) {
+        element.setAttribute("aria-label", dictionary[key].replaceAll("|", " "));
+        const lines = dictionary[key].split("|").map((line) => {
+          const span = document.createElement("span");
+          span.textContent = line;
+          return span;
+        });
+        element.replaceChildren(...lines);
+        return;
+      }
+
+      element.textContent = dictionary[key];
     });
 
     languageButtons.forEach((button) => {
