@@ -6,6 +6,7 @@
   const lightboxImage = document.querySelector("[data-lightbox-image]");
   const lightboxClose = document.querySelector("[data-lightbox-close]");
   const languageButtons = document.querySelectorAll("[data-lang-switch]");
+  const languageStorageKey = "triumph-language-choice";
 
   const translations = {
     en: {
@@ -138,7 +139,7 @@
 
   function getSavedLanguage() {
     try {
-      return window.localStorage.getItem("triumph-language");
+      return window.localStorage.getItem(languageStorageKey);
     } catch (error) {
       return null;
     }
@@ -146,13 +147,20 @@
 
   function saveLanguage(language) {
     try {
-      window.localStorage.setItem("triumph-language", language);
+      window.localStorage.setItem(languageStorageKey, language);
     } catch (error) {
       return;
     }
   }
 
-  function applyLanguage(language) {
+  function getBrowserLanguage() {
+    const languages = navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || navigator.userLanguage || "en"];
+    return languages.some((language) => language.toLowerCase().startsWith("es")) ? "es" : "en";
+  }
+
+  function applyLanguage(language, shouldSave) {
     const activeLanguage = translations[language] ? language : "en";
     const dictionary = translations[activeLanguage];
     document.documentElement.lang = activeLanguage;
@@ -171,7 +179,7 @@
       button.setAttribute("aria-pressed", String(isActive));
     });
 
-    saveLanguage(activeLanguage);
+    if (shouldSave) saveLanguage(activeLanguage);
   }
 
   function updateHeader() {
@@ -216,7 +224,7 @@
 
   languageButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      applyLanguage(button.getAttribute("data-lang-switch"));
+      applyLanguage(button.getAttribute("data-lang-switch"), true);
       closeMenu();
     });
   });
@@ -252,5 +260,5 @@
     }
   });
 
-  applyLanguage(getSavedLanguage() || "en");
+  applyLanguage(getSavedLanguage() || getBrowserLanguage(), false);
 })();
